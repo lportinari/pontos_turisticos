@@ -1,6 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from rest_framework.filters import SearchFilter
 from core.models import PontoTuristico
 from .serializers import PontoTuristicoSerializer
 
@@ -10,6 +11,12 @@ class PontoTuristicoViewSet(ModelViewSet):
     A simple ViewSet for viewing and editing
     """
     serializer_class = PontoTuristicoSerializer
+    filter_backends = (SearchFilter,)
+    search_fields = ('nome', 'descricao', 'endereco__linha1')
+    
+    # Altera o comportamento padrão de busca da api. Ao invés de
+    # buscar pelo ID, busca pelo campo informado.
+    #lookup_field = 'nome'
 
     def get_queryset(self):
     	# Parâmetros passado na URL
